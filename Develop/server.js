@@ -1,41 +1,30 @@
-const express = require ('express');
+const express = require('express');
 const app = express();
 const PORT = 3001;
+const noteRoutes = require('./routes/noteRoutes')
 
-var html = require('./routes')
-
-
-
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 
 
 
 
+app.use(express.static(__dirname + '/public'));
+console.log(__dirname)
+app.get('/', (req, res) => res.sendFile('./public/index.html'));
+
+app.get('/send', (req, res) =>
+  res.sendFile(path.join(__dirname, 'public/notes.html'))
+);
+app.use('/api', noteRoutes)
 
 
+app.get('*', function routeHandler(req, res) {
+  res.send('index.html');
+});
 
-app.get('*',function routeHandler(req,res) { 
-    res.send('index.html');
- });
-
- app.use(express.static('/notes.html'));
- app.get('/', (req, res) => res.send('Navigate to the index'));
- 
- app.get('/send', (req, res) =>
-   res.sendFile(path.join(__dirname, 'public/notes.html'))
- );
-
- app.get('/routes', (req,res)=> 
- res.sendFile(path.join(__dirname, 'public/notes.html'))
- )
- 
-//  app.post('')
- app.listen(PORT, () =>
-   console.log(`Example app listening at http://localhost:${PORT}`)
- );
-
-// app.get(req, res, () => {
-//     res.send('http://localhost/3001')
-// })
+app.listen(PORT, () =>
+  console.log(`Example app listening at http://localhost:${PORT}`)
+);
