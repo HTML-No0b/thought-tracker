@@ -1,10 +1,13 @@
 const noteRoutes = require('express').Router();
+const fs = require('fs');
+const path = require('path')
 
-noteRoutes.post();
-noteRoutes.get('/notes', (req, res) => res.send('Visit http://localhost:3001/api'));
+// const db = require('/Develop/db/db.json')
+noteRoutes.get('/notes',(req,res)=>{
+    const dbcopy = JSON.parse(readFileSync('../db/db.json','UTF-8'));
+    
+res.json(db);
+});
 
-noteRoutes.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, './public/notes.html'))
-)
 
-
+module.exports = noteRoutes
