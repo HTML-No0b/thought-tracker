@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3001;
 const noteRoutes = require('./routes/noteRoutes')
 const path = require('path')
-const htmlRoutes = require('./routes/htmlRoutes')
+// const htmlRoutes = require('./routes/htmlRoutes')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,10 +17,14 @@ console.log(__dirname)
 //   res.sendFile(path.join(__dirname, 'public/notes.html'))
 // );
 app.use('/api', noteRoutes)
-app.use('/', htmlRoutes)
-app.get('/', (req, res) => res.sendFile('./public/index.html'));
-app.get('*', function routeHandler(req, res) {
-  res.sendFile('./public/index.html');
+// app.use('/', htmlRoutes)
+app.get('/', (req, res) => res.sendFile((path.join(__dirname, '/public/index.html'))));
+app.get('/notes', (req, res) => res.sendFile((path.join(__dirname, '/public/notes.html'))));
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+
+
 });
 
 app.listen(PORT, () =>
